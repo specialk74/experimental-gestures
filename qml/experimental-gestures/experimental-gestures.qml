@@ -47,46 +47,41 @@ Rectangle {
     height: 400
     property real lastAngle: 0.0
 
-
     Pagina {
         id: swipeA
         text: "Swipe A"
         color: "green"
+        state: "center"
     }
     Pagina {
         id: swipeB
         text: "Swipe B"
         color: "red"
-//        anchors.bottom: swipeA.top
+        state: "up"
     }
     Pagina {
         id: swipeC
         text: "Swipe C"
         color: "yellow"
-//        anchors.top: swipeA.bottom
+        state: "down"
     }
     Pagina {
         id: swipeD
         text: "Swipe D"
         color: "blue"
-
-//        anchors.left: swipeA.right
+        state: "right"
     }
     Pagina {
         id: swipeE
         text: "Swipe E"
         color: "gray"
-
-//        anchors.right: swipeA.left
+        state: "left"
     }
-    Pagina {
-        id: nullPage
-    }
-
 
     GestureArea {
         anchors.fill: parent
         focus: true
+        property string wichSwipe: "null"
 
         // Only some of the many gesture properties are shown. See Gesture documentation.
 
@@ -96,10 +91,55 @@ Rectangle {
             console.log("tap and hold pos = (",gesture.position.x,",",gesture.position.y,")")
         onPan:
         {
-            if (gesture.offset.x > gesture.offset.y)
-                swipeA.x += -gesture.delta.x
+            console.log("gesture.offset.x: ", gesture.offset.x, "gesture.offset.y: ", gesture.offset.y)
+            console.log("gesture.delta.x: ", gesture.delta.x, "gesture.delta.y: ", gesture.delta.y)
+            // x positiva -> vs sx
+            // y positiva -> vs alto
+            if (Math.abs(gesture.offset.x) > 25 || Math.abs(gesture.offset.y) > 25)
+            {
+                if (Math.abs(gesture.offset.x) > Math.abs(gesture.offset.y))
+                {
+                    if (gesture.offset.x > 0)
+                    {
+                        if (swipeA.state == "right")
+                            swipeA.x += -gesture.delta.x
+                        else if (swipeE.state == "right" && swipeD.state == "center")
+                            swipeE.x += -gesture.delta.x
+                        else if (swipeD.state == "right" && swipeA.state == "center")
+                            swipeD.x += -gesture.delta.x
+                    }
+                    else
+                    {
+                        if (swipeA.state == "left")
+                            swipeA.x += -gesture.delta.x
+                        else if (swipeE.state == "left" && swipeA.state == "center")
+                            swipeE.x += -gesture.delta.x
+                        else if (swipeD.state == "left" && swipeE.state == "center")
+                            swipeD.x += -gesture.delta.x
+                    }
+                }
+            }
             else
-                swipeA.y += -gesture.delta.y
+            {
+                if (gesture.offset.y > 0)
+                {
+                    if (swipeA.state == "down")
+                        swipeA.y += -gesture.delta.y
+                    else if (swipeB.state == "down" && swipeC.state == "center")
+                        swipeB.y += -gesture.delta.y
+                    else if (swipeC.state == "down" && swipeA.state == "center")
+                        swipeC.y += -gesture.delta.y
+                }
+                else
+                {
+                    if (swipeA.state == "up")
+                        swipeA.y += -gesture.delta.y
+                    else if (swipeB.state == "up" && swipeA.state == "center")
+                        swipeB.y += -gesture.delta.y
+                    else if (swipeC.state == "up" && swipeB.state == "center")
+                        swipeC.y += -gesture.delta.y
+                }
+            }
             //console.log("pan delta = (",gesture.delta.x,",",gesture.delta.y,") acceleration = ",gesture.acceleration)
         }
         onPinch:
@@ -107,124 +147,154 @@ Rectangle {
         onSwipe:{
             if (lastAngle !== gesture.swipeAngle)
             {
-                console.log("swipeA.x: ",swipeA.x," swipeA.y: ", swipeA.y)
-                console.log("swipeB.x: ",swipeB.x," swipeB.y: ", swipeB.y)
-                console.log("swipeC.x: ",swipeC.x," swipeC.y: ", swipeC.y)
+                // Up
+/*
+                console.log("swipeA.x: ",swipeA.x," y: ", swipeA.y, " state:",swipeA.state, " z:", swipeA.z)
+                console.log("swipeB.x: ",swipeB.x," y: ", swipeB.y, " state:",swipeB.state, " z:", swipeB.z)
+                console.log("swipeC.x: ",swipeC.x," y: ", swipeC.y, " state:",swipeC.state, " z:", swipeC.z)
+                console.log("swipeD.x: ",swipeD.x," y: ", swipeD.y, " state:",swipeD.state, " z:", swipeD.z)
+                console.log("swipeE.x: ",swipeE.x," y: ", swipeE.y, " state:",swipeE.state, " z:", swipeE.z)
+*/
                 lastAngle = gesture.swipeAngle
+                wichSwipe = "null"
+
                 // console.log("swipe angle=",gesture.swipeAngle)
                 if ((lastAngle > 45.0) && (lastAngle < (90.0 + 45.0)))
-                {                    
-                    if (swipeA.state == "center" || swipeA.state == "")
+                {
+                    // Up
+                    if (swipeA.state == "center")
                     {
-                        //swipeA.visible = false
-                        //swipeC.visible = true
-
-                        // swipeC.state = "up"
-                        //swipeC.y = 0
-                        // swipeA.y = -parent.height
-                        console.log("swipeA.state = up")
+/*
                         swipeA.state = "up"
                         swipeC.state = "center"
+                        swipeB.state = "down"
+*/
+                        wichSwipe = "up"
                     }
-                    else if (swipeB.state == "center" || swipeB.state == "")
+                    else if (swipeB.state == "center")
                     {
-                        //swipeB.visible = false
-                        //swipeA.visible = true
-
-                        //swipeA.state = "up"
-                        console.log("swipeB.state = up")
+/*
                         swipeB.state = "up"
                         swipeA.state = "center"
+                        swipeC.state = "down"
+*/
+                        wichSwipe = "up"
                     }
-                    else if (swipeC.state == "center" || swipeC.state == "")
+                    else if (swipeC.state == "center")
                     {
-                        // swipeC.visible = false
-                        // swipeB.visible = true
-
-                        // swipeB.state = "up"
-                        //swipeB.x = 0
-                        //swipeB.y = 0
-                        console.log("swipeC.state = up")
+/*
                         swipeC.state = "up"
                         swipeB.state = "center"
+                        swipeA.state = "down"
+*/
+                        wichSwipe = "up"
                     }
                 }
                 else if ((lastAngle > (90.0 + 45.0)) && (lastAngle < (180.0 + 45.0)))
                 {
-                    console.log("swipe left")
-                    if (swipeA.x == 0 && swipeA.y == 0)
+                    // Left
+                    if (swipeA.state == "center")
                     {
-                        //swipeA.visible = false
-                        //swipeD.visible = true
-
+/*
                         swipeA.state = "left"
+                        swipeD.state = "center"
+                        swipeE.state = "right"
+*/
+                        wichSwipe = "left"
                     }
-                    else if (swipeD.x == 0 && swipeD.y == 0)
+                    else if (swipeD.state == "center")
                     {
-                        //swipeD.visible = false
-                        //swipeE.visible = true
-
+/*
                         swipeD.state = "left"
+                        swipeE.state = "center"
+                        swipeA.state = "right"
+*/
+                        wichSwipe = "left"
                     }
-                    else if (swipeE.x == 0 && swipeE.y == 0)
+                    else if (swipeE.state == "center")
                     {
-                        //swipeE.visible = false
-                        //swipeA.visible = true
-
+/*
                         swipeE.state = "left"
+                        swipeA.state = "center"
+                        swipeD.state = "right"
+*/
+                        wichSwipe = "left"
                     }
                 }
                 else if ((lastAngle > (180.0 + 45.0)) && (lastAngle < (270.0 + 45.0)))
                 {
-                    console.log("swipe down")
-                    if (swipeA.x == 0 && swipeA.y == 0)
+                    // Down
+                    if (swipeA.state == "center")
                     {
-                        //swipeA.visible = false
-                        //swipeB.visible = true
-
+/*
+                        // BAC -> CBA
+                        swipeC.state = "up"
+                        swipeB.state = "center"
                         swipeA.state = "down"
+*/
+                        wichSwipe = "down"
                     }
-                    else if (swipeB.x == 0 && swipeB.y == 0)
+                    else if (swipeB.state == "center")
                     {
-                        //swipeB.visible = false
-                        //swipeC.visible = true
-
+/*
+                        // CBA -> ACB
                         swipeB.state = "down"
+                        swipeC.state = "center"
+                        swipeA.state = "up"
+                        */
+                        wichSwipe = "down"
                     }
-                    else if (swipeC.x == 0 && swipeC.y == 0)
+                    else if (swipeC.state == "center")
                     {
-                        //swipeC.visible = false
-                        //swipeA.visible = true
-
+/*
+                        // ACB -> BAC
+                        swipeB.state = "up"
+                        swipeA.state = "center"
                         swipeC.state = "down"
+*/
+                        wichSwipe = "down"
                     }
                 }
                 else
                 {
-                    console.log("swipe right")
-                    if (swipeA.x == 0 && swipeA.y == 0)
+                    // Right
+                    if (swipeA.state == "center")
                     {
-                        //swipeA.visible = false
-                        //swipeE.visible = true
-
+/*
                         swipeA.state = "right"
+                        swipeD.state = "left"
+                        swipeE.state = "center"
+*/
+                        wichSwipe = "right"
                     }
-                    else if (swipeD.x == 0 && swipeD.y == 0)
+                    else if (swipeD.state == "center")
                     {
-                        //swipeD.visible = false
-                        //swipeA.visible = true
-
+/*
                         swipeD.state = "right"
+                        swipeE.state = "left"
+                        swipeA.state = "center"
+*/
+                        wichSwipe = "right"
                     }
-                    else if (swipeE.x == 0 && swipeE.y == 0)
+                    else if (swipeE.state == "center")
                     {
-                        //swipeE.visible = false
-                        //swipeD.visible = true
-
+/*
                         swipeE.state = "right"
+                        swipeA.state = "left"
+                        swipeD.state = "center"
+*/
+                        wichSwipe = "right"
                     }
                 }
+            }
 
+            if (wichSwipe != "null")
+            {
+                swipeA.changeState(wichSwipe)
+                swipeB.changeState(wichSwipe)
+                swipeC.changeState(wichSwipe)
+                swipeD.changeState(wichSwipe)
+                swipeE.changeState(wichSwipe)
             }
         }
         onGesture:
