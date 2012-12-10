@@ -164,29 +164,14 @@ Rectangle {
                     // Up
                     if (swipeA.state == "center")
                     {
-/*
-                        swipeA.state = "up"
-                        swipeC.state = "center"
-                        swipeB.state = "down"
-*/
                         wichSwipe = "up"
                     }
                     else if (swipeB.state == "center")
                     {
-/*
-                        swipeB.state = "up"
-                        swipeA.state = "center"
-                        swipeC.state = "down"
-*/
                         wichSwipe = "up"
                     }
                     else if (swipeC.state == "center")
                     {
-/*
-                        swipeC.state = "up"
-                        swipeB.state = "center"
-                        swipeA.state = "down"
-*/
                         wichSwipe = "up"
                     }
                 }
@@ -195,29 +180,14 @@ Rectangle {
                     // Left
                     if (swipeA.state == "center")
                     {
-/*
-                        swipeA.state = "left"
-                        swipeD.state = "center"
-                        swipeE.state = "right"
-*/
                         wichSwipe = "left"
                     }
                     else if (swipeD.state == "center")
                     {
-/*
-                        swipeD.state = "left"
-                        swipeE.state = "center"
-                        swipeA.state = "right"
-*/
                         wichSwipe = "left"
                     }
                     else if (swipeE.state == "center")
                     {
-/*
-                        swipeE.state = "left"
-                        swipeA.state = "center"
-                        swipeD.state = "right"
-*/
                         wichSwipe = "left"
                     }
                 }
@@ -226,32 +196,14 @@ Rectangle {
                     // Down
                     if (swipeA.state == "center")
                     {
-/*
-                        // BAC -> CBA
-                        swipeC.state = "up"
-                        swipeB.state = "center"
-                        swipeA.state = "down"
-*/
                         wichSwipe = "down"
                     }
                     else if (swipeB.state == "center")
                     {
-/*
-                        // CBA -> ACB
-                        swipeB.state = "down"
-                        swipeC.state = "center"
-                        swipeA.state = "up"
-                        */
                         wichSwipe = "down"
                     }
                     else if (swipeC.state == "center")
                     {
-/*
-                        // ACB -> BAC
-                        swipeB.state = "up"
-                        swipeA.state = "center"
-                        swipeC.state = "down"
-*/
                         wichSwipe = "down"
                     }
                 }
@@ -260,41 +212,26 @@ Rectangle {
                     // Right
                     if (swipeA.state == "center")
                     {
-/*
-                        swipeA.state = "right"
-                        swipeD.state = "left"
-                        swipeE.state = "center"
-*/
                         wichSwipe = "right"
                     }
                     else if (swipeD.state == "center")
                     {
-/*
-                        swipeD.state = "right"
-                        swipeE.state = "left"
-                        swipeA.state = "center"
-*/
                         wichSwipe = "right"
                     }
                     else if (swipeE.state == "center")
                     {
-/*
-                        swipeE.state = "right"
-                        swipeA.state = "left"
-                        swipeD.state = "center"
-*/
                         wichSwipe = "right"
                     }
                 }
-            }
 
-            if (wichSwipe != "null")
-            {
-                swipeA.changeState(wichSwipe)
-                swipeB.changeState(wichSwipe)
-                swipeC.changeState(wichSwipe)
-                swipeD.changeState(wichSwipe)
-                swipeE.changeState(wichSwipe)
+                if (wichSwipe != "null")
+                {
+                    swipeA.changeState(wichSwipe)
+                    swipeB.changeState(wichSwipe)
+                    swipeC.changeState(wichSwipe)
+                    swipeD.changeState(wichSwipe)
+                    swipeE.changeState(wichSwipe)
+                }
             }
         }
         onGesture:

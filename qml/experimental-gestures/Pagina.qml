@@ -54,6 +54,7 @@ Rectangle {
 
     function changeState (newState)
     {
+        console.log (text, state, " -> ", newState)
         if (newState === "up")
         {
             if (state == "up")
