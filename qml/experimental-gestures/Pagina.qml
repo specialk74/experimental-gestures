@@ -2,11 +2,14 @@ import QtQuick 1.1
 
 Rectangle {
     id: item
-    //anchors.fill: parent
     width: parent.width
     height: parent.height
 
     property string text
+    property Item upPage: null
+    property Item downPage: null
+    property Item rightPage: null
+    property Item leftPage: null
 
     states: [
         State {

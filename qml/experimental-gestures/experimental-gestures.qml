@@ -52,31 +52,49 @@ Rectangle {
         text: "Swipe A"
         color: "green"
         state: "center"
+        upPage: swipeB
+        downPage: swipeC
+        leftPage: swipeE
+        rightPage: swipeD
     }
     Pagina {
         id: swipeB
         text: "Swipe B"
         color: "red"
         state: "up"
+
+        upPage: swipeC
+        downPage: swipeA
     }
     Pagina {
         id: swipeC
         text: "Swipe C"
         color: "yellow"
         state: "down"
+
+        upPage: swipeA
+        downPage: swipeB
     }
     Pagina {
         id: swipeD
         text: "Swipe D"
         color: "blue"
         state: "right"
+
+        leftPage: swipeA
+        rightPage: swipeE
     }
     Pagina {
         id: swipeE
         text: "Swipe E"
         color: "gray"
         state: "left"
+
+        leftPage: swipeD
+        rightPage: swipeA
     }
+
+    property Pagina currentPage: swipeA
 
     GestureArea {
         anchors.fill: parent
@@ -174,6 +192,8 @@ Rectangle {
                     {
                         wichSwipe = "up"
                     }
+
+
                 }
                 else if ((lastAngle > (90.0 + 45.0)) && (lastAngle < (180.0 + 45.0)))
                 {
