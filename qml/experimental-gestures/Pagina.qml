@@ -57,7 +57,7 @@ Rectangle {
 
     function changeState (newState)
     {
-        console.log (text, state, " -> ", newState)
+//        console.log (text, state, " -> ", newState)
         if (newState === "up")
         {
             if (state == "up")
@@ -100,11 +100,13 @@ Rectangle {
        Transition {
            from: "center";
            PropertyAnimation { properties: "x,y"; easing.type: Easing.InOutQuad; duration: 2000 }
-       },
+       }
+/*
         Transition {
             to: "center"
             PropertyAnimation { properties: "x,y"; easing.type: Easing.InOutQuad; duration: 2000 }
         }
+            */
     ]
 
     Text {

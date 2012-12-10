@@ -45,7 +45,8 @@ Rectangle {
     id: rect
     width: 600
     height: 400
-    property real lastAngle: 0.0
+    property real lastAngle: 0.0        
+    property string wichSwipe: "null"
 
     Pagina {
         id: swipeA
@@ -65,6 +66,7 @@ Rectangle {
 
         upPage: swipeC
         downPage: swipeA
+        leftPage: swipeF
     }
     Pagina {
         id: swipeC
@@ -92,6 +94,17 @@ Rectangle {
 
         leftPage: swipeD
         rightPage: swipeA
+
+        upPage: swipeF
+    }
+    Pagina {
+        id: swipeF
+        text: "Swipe F"
+        color: "brown"
+        state: "up"
+
+        downPage: swipeE
+        rightPage: swipeB
     }
 
     property Pagina currentPage: swipeA
@@ -99,7 +112,6 @@ Rectangle {
     GestureArea {
         anchors.fill: parent
         focus: true
-        property string wichSwipe: "null"
 
         // Only some of the many gesture properties are shown. See Gesture documentation.
 
@@ -109,8 +121,9 @@ Rectangle {
             console.log("tap and hold pos = (",gesture.position.x,",",gesture.position.y,")")
         onPan:
         {
-            console.log("gesture.offset.x: ", gesture.offset.x, "gesture.offset.y: ", gesture.offset.y)
-            console.log("gesture.delta.x: ", gesture.delta.x, "gesture.delta.y: ", gesture.delta.y)
+/*
+//            console.log("gesture.offset.x: ", gesture.offset.x, "gesture.offset.y: ", gesture.offset.y)
+//            console.log("gesture.delta.x: ", gesture.delta.x, "gesture.delta.y: ", gesture.delta.y)
             // x positiva -> vs sx
             // y positiva -> vs alto
             if (Math.abs(gesture.offset.x) > 25 || Math.abs(gesture.offset.y) > 25)
@@ -159,6 +172,7 @@ Rectangle {
                 }
             }
             //console.log("pan delta = (",gesture.delta.x,",",gesture.delta.y,") acceleration = ",gesture.acceleration)
+*/
         }
         onPinch:
             console.log("pinch center = (",gesture.centerPoint.x,",",gesture.centerPoint.y,") rotation =",gesture.rotationAngle," scale =",gesture.scaleFactor)
@@ -176,81 +190,92 @@ Rectangle {
                 lastAngle = gesture.swipeAngle
                 wichSwipe = "null"
 
-                // console.log("swipe angle=",gesture.swipeAngle)
-                if ((lastAngle > 45.0) && (lastAngle < (90.0 + 45.0)))
+                if (lastAngle < 45.0)
                 {
-                    // Up
-                    if (swipeA.state == "center")
-                    {
+                    if (currentPage.leftPage !== null)
+                        wichSwipe = "right"
+                }
+                else if (lastAngle < (90.0 + 45.0))
+                {
+                    if (currentPage.downPage !== null)
                         wichSwipe = "up"
-                    }
-                    else if (swipeB.state == "center")
-                    {
-                        wichSwipe = "up"
-                    }
-                    else if (swipeC.state == "center")
-                    {
-                        wichSwipe = "up"
-                    }
+                }
+                else if (lastAngle < (180.0 + 45.0))
+                {
+                    if (currentPage.rightPage !== null)
+                        wichSwipe = "left"
+                }
+                else if (lastAngle < (270.0 + 45.0))
+                {
+                    if (currentPage.upPage !== null)
+                        wichSwipe = "down"
+                }
+                else if (currentPage.leftPage !== null)
+                        wichSwipe = "right"
 
-
-                }
-                else if ((lastAngle > (90.0 + 45.0)) && (lastAngle < (180.0 + 45.0)))
-                {
-                    // Left
-                    if (swipeA.state == "center")
-                    {
-                        wichSwipe = "left"
-                    }
-                    else if (swipeD.state == "center")
-                    {
-                        wichSwipe = "left"
-                    }
-                    else if (swipeE.state == "center")
-                    {
-                        wichSwipe = "left"
-                    }
-                }
-                else if ((lastAngle > (180.0 + 45.0)) && (lastAngle < (270.0 + 45.0)))
-                {
-                    // Down
-                    if (swipeA.state == "center")
-                    {
-                        wichSwipe = "down"
-                    }
-                    else if (swipeB.state == "center")
-                    {
-                        wichSwipe = "down"
-                    }
-                    else if (swipeC.state == "center")
-                    {
-                        wichSwipe = "down"
-                    }
-                }
-                else
-                {
-                    // Right
-                    if (swipeA.state == "center")
-                    {
-                        wichSwipe = "right"
-                    }
-                    else if (swipeD.state == "center")
-                    {
-                        wichSwipe = "right"
-                    }
-                    else if (swipeE.state == "center")
-                    {
-                        wichSwipe = "right"
-                    }
-                }
+                console.log("swipe angle=",gesture.swipeAngle, "  wichSwipe:", wichSwipe)
 
                 if (wichSwipe != "null")
                 {
+                    currentPage.changeState(wichSwipe)
+                    if (currentPage.rightPage !== currentPage.leftPage)
+                    {
+                        if (currentPage.rightPage !== null)
+                            currentPage.rightPage.changeState(wichSwipe)
+                        if (currentPage.leftPage !== null)
+                            currentPage.leftPage.changeState(wichSwipe)
+                    }
+                    else if (currentPage.leftPage !== null)
+                        currentPage.leftPage.changeState(wichSwipe)
+
+                    if (currentPage.downPage !== currentPage.upPage)
+                    {
+                        if (currentPage.downPage !== null)
+                            currentPage.downPage.changeState(wichSwipe)
+                        if (currentPage.upPage !== null)
+                            currentPage.upPage.changeState(wichSwipe)
+                    }
+                    else if (currentPage.upPage !== null)
+                        currentPage.upPage.changeState(wichSwipe)
+
+/*
                     swipeA.changeState(wichSwipe)
                     swipeB.changeState(wichSwipe)
                     swipeC.changeState(wichSwipe)
                     swipeD.changeState(wichSwipe)
                     swipeE.changeState(wichSwipe)
+
+                    if (swipeA.state == "center")
+                        currentPage = swipeA
+                    else if (swipeB.state == "center")
+                        currentPage = swipeB
+                    else if (swipeC.state == "center")
+                        currentPage = swipeC
+                    else if (swipeD.state == "center")
+                        currentPage = swipeD
+                    else if (swipeE.state == "center")
+                        currentPage = swipeE
+*/
+
+                    if (currentPage.rightPage !== null && currentPage.rightPage.state === "center")
+                        currentPage = currentPage.rightPage
+                    else if (currentPage.downPage !== null && currentPage.downPage.state === "center")
+                        currentPage = currentPage.downPage
+                    else if (currentPage.upPage !== null && currentPage.upPage.state === "center")
+                        currentPage = currentPage.upPage
+                    else if (currentPage.leftPage !== null && currentPage.leftPage.state === "center")
+                        currentPage = currentPage.leftPage
+
+/*
+                    if (currentPage.rightPage !== null)
+                        currentPage.rightPage.changeState("right")
+                    if (currentPage.downPage !== null)
+                        currentPage.downPage.changeState("downPage")
+                    if (currentPage.leftPage !== null)
+                        currentPage.leftPage.changeState("leftPage")
+                    if (currentPage.upPage !== null)
+                        currentPage.upPage.changeState("upPage")
+*/
                 }
             }
         }
