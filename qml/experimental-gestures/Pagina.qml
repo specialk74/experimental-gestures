@@ -126,48 +126,6 @@ Rectangle {
 
     }
 
-    /*
-    function changeState (newState)
-    {
-//        console.log (text, state, " -> ", newState)
-        if (newState === "up")
-        {
-            if (state == "up")
-                state = "down"
-            else if (state == "center")
-                state = "up"
-            else if (state == "down")
-                state = "center"
-        }
-        else if (newState === "down")
-        {
-            if (state == "down")
-                state = "up"
-            else if (state == "center")
-                state = "down"
-            else if (state == "up")
-                state = "center"
-        }
-        else if (newState === "left")
-        {
-            if (state == "left")
-                state = "right"
-            else if (state == "center")
-                state = "left"
-            else if (state == "right")
-                state = "center"
-        }
-        else
-        {
-            if (state == "right")
-                state = "left"
-            else if (state == "center")
-                state = "right"
-            else if (state == "left")
-                state = "center"
-        }
-    }
-*/
     transitions: [       
        Transition {
            from: "center";

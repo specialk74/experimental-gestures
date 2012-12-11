@@ -187,110 +187,27 @@ Rectangle {
                 console.log("swipeE.x: ",swipeE.x," y: ", swipeE.y, " state:",swipeE.state, " z:", swipeE.z)
 */
                 lastAngle = gesture.swipeAngle
-                wichSwipe = "null"
 
-                /*
                 if (lastAngle < 45.0)
-                {
-                    if (currentPage.leftPage !== null)
-                        wichSwipe = "right"
-                }
+                    currentPage.changeState("right")
                 else if (lastAngle < (90.0 + 45.0))
-                {
-                    if (currentPage.downPage !== null)
-                        wichSwipe = "up"
-                }
+                    currentPage.changeState("up")
                 else if (lastAngle < (180.0 + 45.0))
-                {
-                    if (currentPage.rightPage !== null)
-                        wichSwipe = "left"
-                }
+                    currentPage.changeState("left")
                 else if (lastAngle < (270.0 + 45.0))
-                {
-                    if (currentPage.upPage !== null)
-                        wichSwipe = "down"
-                }
-                else if (currentPage.leftPage !== null)
-                        wichSwipe = "right"
+                    currentPage.changeState("down")
+                else
+                    currentPage.changeState("right")
 
-                        */
-                wichSwipe = "right";
-                if (lastAngle < 45.0)
-                {
-                    wichSwipe = "right"
-                }
-                else if (lastAngle < (90.0 + 45.0))
-                {
-                    wichSwipe = "up"
-                }
-                else if (lastAngle < (180.0 + 45.0))
-                {
-                    wichSwipe = "left"
-                }
-                else if (lastAngle < (270.0 + 45.0))
-                {
-                    wichSwipe = "down"
-                }
-
-                console.log("swipe angle=",gesture.swipeAngle, "  wichSwipe:", wichSwipe)
-
-                //if (wichSwipe != "null")
-                {
-                    currentPage.changeState(wichSwipe)
-                    if (currentPage.state === wichSwipe)
-                    {
-/*
-                        if (currentPage.rightPage !== currentPage.leftPage)
-                        {
-                            if (currentPage.rightPage !== null)
-                                currentPage.rightPage.changeState(wichSwipe)
-                            if (currentPage.leftPage !== null)
-                                currentPage.leftPage.changeState(wichSwipe)
-                        }
-                        else if (currentPage.leftPage !== null)
-                            currentPage.leftPage.changeState(wichSwipe)
-
-                        if (currentPage.downPage !== currentPage.upPage)
-                        {
-                            if (currentPage.downPage !== null)
-                                currentPage.downPage.changeState(wichSwipe)
-                            if (currentPage.upPage !== null)
-                                currentPage.upPage.changeState(wichSwipe)
-                        }
-                        else if (currentPage.upPage !== null)
-                            currentPage.upPage.changeState(wichSwipe)
-
-                        // Set del nuovo currentPage controllando quelle intorno all'attuale
-                        if (currentPage.rightPage !== null && currentPage.rightPage.state === "center")
-                            currentPage = currentPage.rightPage
-                        else if (currentPage.downPage !== null && currentPage.downPage.state === "center")
-                            currentPage = currentPage.downPage
-                        else if (currentPage.upPage !== null && currentPage.upPage.state === "center")
-                            currentPage = currentPage.upPage
-                        else if (currentPage.leftPage !== null && currentPage.leftPage.state === "center")
-                            currentPage = currentPage.leftPage
-*/
-                        // Set del nuovo currentPage controllando quelle intorno all'attuale
-                        if (currentPage.rightPage !== null && currentPage.rightPage.state === "center")
-                            currentPage = currentPage.rightPage
-                        else if (currentPage.downPage !== null && currentPage.downPage.state === "center")
-                            currentPage = currentPage.downPage
-                        else if (currentPage.upPage !== null && currentPage.upPage.state === "center")
-                            currentPage = currentPage.upPage
-                        else if (currentPage.leftPage !== null && currentPage.leftPage.state === "center")
-                            currentPage = currentPage.leftPage
-                        /*
-                    if (currentPage.rightPage !== null)
-                        currentPage.rightPage.changeState("right")
-                    if (currentPage.downPage !== null)
-                        currentPage.downPage.changeState("downPage")
-                    if (currentPage.leftPage !== null)
-                        currentPage.leftPage.changeState("leftPage")
-                    if (currentPage.upPage !== null)
-                        currentPage.upPage.changeState("upPage")
-*/
-                    }
-                }
+                // Set del nuovo currentPage controllando quelle intorno all'attuale
+                if (currentPage.rightPage !== null && currentPage.rightPage.state === "center")
+                    currentPage = currentPage.rightPage
+                else if (currentPage.downPage !== null && currentPage.downPage.state === "center")
+                    currentPage = currentPage.downPage
+                else if (currentPage.upPage !== null && currentPage.upPage.state === "center")
+                    currentPage = currentPage.upPage
+                else if (currentPage.leftPage !== null && currentPage.leftPage.state === "center")
+                    currentPage = currentPage.leftPage
             }
         }
         onGesture:
