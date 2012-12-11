@@ -1,4 +1,4 @@
 *.o
 moc_*
 Makefile
-experimentalgestures.pro.user
+*.pro.user
