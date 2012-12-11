@@ -257,6 +257,7 @@ Rectangle {
                         currentPage = swipeE
 */
 
+                    // Set del nuovo currentPage controllando quelle intorno all'attuale
                     if (currentPage.rightPage !== null && currentPage.rightPage.state === "center")
                         currentPage = currentPage.rightPage
                     else if (currentPage.downPage !== null && currentPage.downPage.state === "center")
