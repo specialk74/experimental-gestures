@@ -53,10 +53,10 @@ Rectangle {
         text: "Swipe A"
         color: "green"
         state: "center"
-        upPage: swipeB
-        downPage: swipeC
-        leftPage: swipeE
-        rightPage: swipeD
+        nordPage: swipeB
+        sudPage: swipeC
+        westPage: swipeE
+        eastPage: swipeD
     }
     Pagina {
         id: swipeB
@@ -64,9 +64,9 @@ Rectangle {
         color: "red"
         state: "up"
 
-        upPage: swipeC
-        downPage: swipeA
-        leftPage: swipeF
+        nordPage: swipeC
+        sudPage: swipeA
+//        westPage: swipeF
     }
     Pagina {
         id: swipeC
@@ -74,8 +74,8 @@ Rectangle {
         color: "yellow"
         state: "down"
 
-        upPage: swipeA
-        downPage: swipeB
+        nordPage: swipeA
+        sudPage: swipeB
     }
     Pagina {
         id: swipeD
@@ -83,8 +83,8 @@ Rectangle {
         color: "blue"
         state: "right"
 
-        leftPage: swipeA
-        rightPage: swipeE
+        westPage: swipeA
+        eastPage: swipeE
     }
     Pagina {
         id: swipeE
@@ -92,10 +92,10 @@ Rectangle {
         color: "gray"
         state: "left"
 
-        leftPage: swipeD
-        rightPage: swipeA
+        westPage: swipeD
+        eastPage: swipeA
 
-        upPage: swipeF
+        nordPage: swipeF
     }
     Pagina {
         id: swipeF
@@ -103,11 +103,11 @@ Rectangle {
         color: "brown"
         state: "up"
 
-        downPage: swipeE
-        rightPage: swipeB
+        sudPage: swipeE
+        eastPage: swipeB
     }
 
-    property Pagina currentPage: swipeA
+    property Pagina currentPage: swipeA   
 
     GestureArea {
         anchors.fill: parent
@@ -200,14 +200,17 @@ Rectangle {
                     currentPage.changeState("right")
 
                 // Set del nuovo currentPage controllando quelle intorno all'attuale
-                if (currentPage.rightPage !== null && currentPage.rightPage.state === "center")
-                    currentPage = currentPage.rightPage
-                else if (currentPage.downPage !== null && currentPage.downPage.state === "center")
-                    currentPage = currentPage.downPage
-                else if (currentPage.upPage !== null && currentPage.upPage.state === "center")
-                    currentPage = currentPage.upPage
-                else if (currentPage.leftPage !== null && currentPage.leftPage.state === "center")
-                    currentPage = currentPage.leftPage
+                if (currentPage.state !== "center")
+                {
+                    if (currentPage.eastPage !== null && currentPage.eastPage.state === "center")
+                        currentPage = currentPage.eastPage
+                    else if (currentPage.sudPage !== null && currentPage.sudPage.state === "center")
+                        currentPage = currentPage.sudPage
+                    else if (currentPage.nordPage !== null && currentPage.nordPage.state === "center")
+                        currentPage = currentPage.nordPage
+                    else if (currentPage.westPage !== null && currentPage.westPage.state === "center")
+                        currentPage = currentPage.westPage
+                }
             }
         }
         onGesture:
